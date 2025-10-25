@@ -1,0 +1,13 @@
+java_test(
+    name = "graph_test",
+    srcs = glob(["*.java"]),
+    deps = [
+        "//java/src/main/com/puava/graph:graph",
+        "@maven//:org_junit_jupiter_api",
+    ],
+    test_class = "com.puava.graph.GraphTest",
+    runtime_deps = [
+        "@maven//:org_junit_jupiter_engine",
+        "@maven//:org_junit_platform_console",
+    ],
+)

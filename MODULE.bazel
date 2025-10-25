@@ -1,0 +1,41 @@
+# Define the name and version of your module (puava)
+module(
+    name = "puava",
+    version = "0.1.0",
+)
+
+# --- Python Dependencies ---
+# Load the official rules for Python
+bazel_dep(name = "rules_python", version = "1.6.3")
+
+# Set up a Python 3.11 toolchain
+python = use_extension("@rules_python//python:extensions.bzl", "python")
+python.toolchain(
+    python_version = "3.11",
+)
+
+# --- Java Dependencies ---
+# Load the official rules for Java
+bazel_dep(name = "rules_java", version = "8.16.1")
+bazel_dep(name = "rules_jvm_external", version = "6.8")
+
+# Set up a Java JDK 17 toolchain
+java = use_extension("@rules_java//java:extensions.bzl", "java")
+java.toolchain(
+    name = "java_21_toolchain",
+    version = "21",
+)
+
+# Load JUnit 5 (for your Java tests)
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+maven.install(
+    artifacts = [
+        "org.junit.jupiter:junit-jupiter-api:6.0.0",
+        "org.junit.jupiter:junit-jupiter-engine:6.0.0",
+        "org.junit.platform:junit-platform-console:6.0.0",
+    ],
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+)
+use_repo(maven, "maven")
