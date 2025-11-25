@@ -1,3 +1,4 @@
+"""A module that defines the dependencies for the Puava project."""
 module(
     name = "puava",
     version = "0.1.0",
