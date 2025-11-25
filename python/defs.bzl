@@ -14,6 +14,6 @@ def puava_pytest(name, srcs, deps = [], args = [], **kwargs):
             requirement("pytest"),
         ],
         # $(location :test_file) tells Bazel to resolve the path.
-        args = args + ["$(location :%s)" % test_file], 
+        args = args + ["$(location :%s)" % test_file],
         **kwargs
     )

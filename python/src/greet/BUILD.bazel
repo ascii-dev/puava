@@ -3,6 +3,6 @@ load("@rules_python//python:defs.bzl", "py_library")
 py_library(
     name = "greet",
     srcs = ["greet.py"],
-    imports = ["../"], 
+    imports = ["../"],
     visibility = ["//visibility:public"],
 )
