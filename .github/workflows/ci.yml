@@ -1,0 +1,37 @@
+name: Puava CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # 2. Setup Python
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 3. Setup Bazel (The Modern Way)
+      # This installs Bazelisk AND handles the build cache automatically.
+      - name: Setup Bazel
+        uses: bazel-contrib/setup-bazel@0.8.5
+        with:
+          # Uses .bazelversion file automatically
+          bazelisk-cache: true
+          disk-cache: true
+          repository-cache: true
+
+      # 4. Run Tests
+      - name: Run Tests
+        run: bazel test //... --test_output=errors
