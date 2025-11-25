@@ -5,7 +5,7 @@ repos:
   # --- 1. Generic File Fixes ---
   # These keep the repo clean and prevent silly merge conflicts.
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v6.0.0
     hooks:
       - id: check-yaml
       - id: check-toml
@@ -17,7 +17,7 @@ repos:
   # --- 2. Python Linting & Formatting (Ruff) ---
   # This replaces Black, Isort, and Flake8 with a single, fast tool.
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.4
+    rev: v0.14.6
     hooks:
       - id: ruff
         args: [--fix]
@@ -27,7 +27,7 @@ repos:
   # This enforces the Google C Style Guide automatically.
   # It will format .c, .h, and .cc (test) files.
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v18.1.5
+    rev: v21.1.6
     hooks:
       - id: clang-format
         types_or: [c, c++]
@@ -44,3 +44,14 @@ repos:
         # Only runs if poetry.lock changes
         files: ^poetry\.lock$
         pass_filenames: false
+
+  # --- 5. Static Type Checking (MyPy) ---
+  # This enforces type safety on all Python code.
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.18.2
+    hooks:
+      - id: mypy
+        # These args make it "Staff-level" strict
+        args: [--strict, --ignore-missing-imports]
+        # We need to tell pre-commit to install types for dependencies if needed
+        additional_dependencies: [pytest]
