@@ -7,31 +7,75 @@ on:
     branches: [ "main" ]
 
 jobs:
-  test:
-    name: Build & Test
+# --- JOB 1: LINTING (The Style Police) ---
+  # This runs fast. If it fails, we don't bother building.
+  lint:
+    name: Lint & Format
     runs-on: ubuntu-latest
-
     steps:
-      # 1. Checkout
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # 2. Setup Python
-      - name: Setup Python 3.11
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      # 3. Setup Bazel (The Modern Way)
-      # This installs Bazelisk AND handles the build cache automatically.
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Add Export Plugin to Poetry
+        run: poetry self add "poetry-plugin-export"
+
+      - name: Install pre-commit
+        run: pip install pre-commit
+
+      # Runs all hooks defined in .pre-commit-config.yaml
+      # Checks every file in the repo.
+      - name: Run pre-commit
+        run: pre-commit run --all-files
+
+  # --- JOB 2: BUILD & TEST ---
+  test:
+    name: Test (${{ matrix.os }})
+    needs: lint # Wait for lint to pass
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false # If Linux fails, let macOS finish so we see all errors
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - name: Setup Bazel
         uses: bazel-contrib/setup-bazel@0.8.5
         with:
-          # Uses .bazelversion file automatically
           bazelisk-cache: true
           disk-cache: true
           repository-cache: true
 
-      # 4. Run Tests
-      - name: Run Tests
+      # 1. Standard Test Run
+      # Runs all tests in standard mode.
+      - name: Run All Tests (Standard)
         run: bazel test //... --test_output=errors
+
+      # 2. Memory Safety Run (AddressSanitizer) - Linux Only
+      # Catches buffer overflows and memory leaks.
+      - name: Run Tests with AddressSanitizer (ASan)
+        if: runner.os == 'Linux'
+        run: |
+          bazel test //... \
+            --test_output=errors \
+            --copt=-fsanitize=address \
+            --linkopt=-fsanitize=address \
+            --copt=-g \
+            --copt=-O1 \
+            --copt=-fno-omit-frame-pointer

@@ -5,4 +5,4 @@
 // Returns 1 (success)
 int puava_greet(void);
 
-#endif // PUAVA_GREET_H
+#endif  // PUAVA_GREET_H

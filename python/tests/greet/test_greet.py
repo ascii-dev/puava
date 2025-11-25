@@ -1,5 +1,3 @@
-import sys
-import pytest
 from greet.greet import greet
 
 

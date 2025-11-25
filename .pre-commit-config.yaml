@@ -1,0 +1,46 @@
+# See https://pre-commit.com for more information
+# To update hooks: pre-commit autoupdate
+
+repos:
+  # --- 1. Generic File Fixes ---
+  # These keep the repo clean and prevent silly merge conflicts.
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-added-large-files
+
+  # --- 2. Python Linting & Formatting (Ruff) ---
+  # This replaces Black, Isort, and Flake8 with a single, fast tool.
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.4
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  # --- 3. C/C++ Formatting (Clang-Format) ---
+  # This enforces the Google C Style Guide automatically.
+  # It will format .c, .h, and .cc (test) files.
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v18.1.5
+    hooks:
+      - id: clang-format
+        types_or: [c, c++]
+
+  # --- 4. The "Poetry Bridge" ---
+  # This automatically updates requirements_lock.txt whenever poetry.lock changes.
+  # Keeps Bazel in sync with Poetry.
+  - repo: local
+    hooks:
+      - id: poetry-export
+        name: poetry-export
+        entry: poetry export --with dev --without-hashes --format=requirements.txt --output requirements_lock.txt
+        language: system
+        # Only runs if poetry.lock changes
+        files: ^poetry\.lock$
+        pass_filenames: false
