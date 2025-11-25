@@ -1,0 +1,6 @@
+colorama==0.4.6 ; python_version >= "3.11" and sys_platform == "win32"
+iniconfig==2.3.0 ; python_version >= "3.11"
+packaging==25.0 ; python_version >= "3.11"
+pluggy==1.6.0 ; python_version >= "3.11"
+pygments==2.19.2 ; python_version >= "3.11"
+pytest==9.0.1 ; python_version >= "3.11"

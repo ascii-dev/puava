@@ -1,8 +1,0 @@
-# This defines a test target
-py_test(
-    name = "graph_test",
-    srcs = glob(["*.py"]),
-    deps = [
-        "//python/src/graph:graph",
-    ],
-)

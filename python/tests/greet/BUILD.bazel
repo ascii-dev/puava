@@ -1,0 +1,9 @@
+load("//python:defs.bzl", "puava_pytest")
+
+puava_pytest(
+    name = "test_greet",
+    srcs = ["test_greet.py"],
+    deps = [
+        "//python/src/greet:greet", # Link the library
+    ],
+)
