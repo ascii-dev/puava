@@ -4,14 +4,22 @@ module(
 )
 
 # --- C/C++ Dependencies ---
-bazel_dep(name = "rules_cc", version = "0.1.1")
+bazel_dep(name = "rules_cc", version = "0.1.5")
 bazel_dep(name = "googletest", version = "1.14.0.bcr.1")
 
 # --- Python Dependencies ---
-bazel_dep(name = "rules_python", version = "0.40.0")
+bazel_dep(name = "rules_python", version = "1.7.0")
 
 # Register a Python toolchain (Python 3.11)
 python = use_extension("@rules_python//python:extensions.bzl", "python")
-python.toolchain(
+python.toolchain(python_version = "3.11")
+use_repo(python)
+
+# Parse pip dependencies
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    hub_name = "pypi",
+    requirements_lock = "//:requirements_lock.txt",
     python_version = "3.11",
 )
+use_repo(pip, "pypi")

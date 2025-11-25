@@ -1,0 +1,10 @@
+# --- Environment Variables ---
+# Pass the HOME variable to all actions.
+# This fixes "error loading config: $HOME is not defined" in Python tools.
+build --action_env=HOME
+test --test_env=HOME
+run --action_env=HOME
+
+# --- Output Formatting ---
+# Make the output look nicer (optional but recommended)
+test --test_output=errors

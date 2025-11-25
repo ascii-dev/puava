@@ -29,3 +29,5 @@ bazel-*
 _bazel_*
 .cache/bazel
 .output_user_root
+
+__pycache__/
