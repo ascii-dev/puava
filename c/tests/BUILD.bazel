@@ -8,3 +8,12 @@ cc_test(
         "@googletest//:gtest_main", # Link the GoogleTest framework
     ],
 )
+
+cc_test(
+    name = "puava_vector_test",
+    srcs = ["puava_vector_test.cc"],
+    deps = [
+        "//c/src/vector:puava_vector",
+        "@googletest//:gtest_main",
+    ],
+)
