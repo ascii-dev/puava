@@ -1,16 +1,16 @@
-#include "includes/puava_vector.h"
+#include "includes/vector.h"
 
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
-struct PuavaVector {
+struct Vector {
   size_t size;
   size_t capacity;
   void** data;
 };
 
-static void resize(PuavaVector* vector, size_t new_capacity) {
+static void resize(Vector* vector, size_t new_capacity) {
   void** new_data = realloc(vector->data, new_capacity * sizeof(void*));
   if (new_data == NULL) return;
 
@@ -32,8 +32,8 @@ uint32_t next_power_of_2(uint32_t n) {
   return n + 1;
 }
 
-PuavaVector* puava_vector_new(int capacity) {
-  PuavaVector* vector = malloc(sizeof(PuavaVector));
+Vector* vector_new(int capacity) {
+  Vector* vector = malloc(sizeof(Vector));
   if (!vector) return NULL;
 
   if (capacity < 16) capacity = 16;
@@ -51,13 +51,13 @@ PuavaVector* puava_vector_new(int capacity) {
   return vector;
 }
 
-size_t puava_vector_size(PuavaVector* vector) { return vector->size; }
+size_t vector_size(Vector* vector) { return vector->size; }
 
-size_t puava_vector_capacity(PuavaVector* vector) { return vector->capacity; }
+size_t vector_capacity(Vector* vector) { return vector->capacity; }
 
-short puava_vector_empty(PuavaVector* vector) { return vector->size == 0; }
+short vector_empty(Vector* vector) { return vector->size == 0; }
 
-void puava_vector_push(PuavaVector* vector, const void* item) {
+void vector_push(Vector* vector, const void* item) {
   if (vector->size == vector->capacity) {
     resize(vector, vector->capacity * 2);
   }
@@ -66,13 +66,13 @@ void puava_vector_push(PuavaVector* vector, const void* item) {
   vector->size++;
 }
 
-void* puava_vector_at(PuavaVector* vector, int index) {
+void* vector_at(Vector* vector, int index) {
   if (index < 0 || index >= vector->size) return NULL;
 
   return *(vector->data + index);
 }
 
-void puava_vector_insert(PuavaVector* vector, int index, const void* item) {
+void vector_insert(Vector* vector, int index, const void* item) {
   if (index < 0 || index > vector->size) return;
 
   if (vector->size == vector->capacity) {
@@ -85,11 +85,9 @@ void puava_vector_insert(PuavaVector* vector, int index, const void* item) {
   vector->size++;
 }
 
-void puava_vector_prepend(PuavaVector* vector, const void* item) {
-  puava_vector_insert(vector, 0, item);
-}
+void vector_prepend(Vector* vector, const void* item) { vector_insert(vector, 0, item); }
 
-void* puava_vector_pop(PuavaVector* vector) {
+void* vector_pop(Vector* vector) {
   if (vector->size == 0) return NULL;
 
   void* item = *(vector->data + (vector->size - 1));
@@ -101,7 +99,7 @@ void* puava_vector_pop(PuavaVector* vector) {
   return item;
 }
 
-void puava_vector_delete(PuavaVector* vector, int index) {
+void vector_delete(Vector* vector, int index) {
   if (index < 0 || index >= vector->size) return;
 
   memmove(vector->data + index, vector->data + index + 1,
@@ -113,21 +111,21 @@ void puava_vector_delete(PuavaVector* vector, int index) {
     resize(vector, vector->capacity / 2);
 }
 
-void puava_vector_remove(PuavaVector* vector, const void* item) {
+void vector_remove(Vector* vector, const void* item) {
   for (size_t i = 0; i < vector->size; i++)
     if (*(vector->data + i) == item) {
-      puava_vector_delete(vector, i);
+      vector_delete(vector, i);
       return;
     }
 }
 
-size_t puava_vector_find(PuavaVector* vector, const void* item) {
+size_t vector_find(Vector* vector, const void* item) {
   for (size_t i = 0; i < vector->size; i++)
     if (*(vector->data + i) == item) return i;  // Return index found
   return -1;                                    // Not found
 }
 
-void puava_vector_free(PuavaVector* vector) {
+void vector_free(Vector* vector) {
   free(vector->data);
   free(vector);
 }
