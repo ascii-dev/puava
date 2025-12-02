@@ -1,9 +1,9 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
 cc_library(
-    name = "puava_vector",
-    srcs = ["puava_vector.c"],
-    hdrs = ["//c/includes:puava_vector.h"],
+    name = "vector",
+    srcs = ["vector.c"],
+    hdrs = ["//c/includes:vector.h"],
     strip_include_prefix = "//c",
     visibility = ["//visibility:public"],
 )

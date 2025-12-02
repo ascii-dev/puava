@@ -1,2 +1,2 @@
 exports_files(["greet.h"])
-exports_files(["puava_vector.h"])
+exports_files(["vector.h"])
