@@ -1,0 +1,10 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "llstack",
+    srcs = ["llstack.c"],
+    hdrs = ["//c/includes:llstack.h", "//c/includes:slinkedlist.h"],
+    strip_include_prefix = "//c",
+    deps = ["//c/src/linkedlist:slinkedlist"],
+    visibility = ["//visibility:public"],
+)

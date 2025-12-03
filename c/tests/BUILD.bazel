@@ -26,3 +26,12 @@ cc_test(
         "@googletest//:gtest_main",
     ],
 )
+
+cc_test(
+    name = "llstack_test",
+    srcs = ["llstack_test.cc"],
+    deps = [
+        "//c/src/stack:llstack",
+        "@googletest//:gtest_main",
+    ],
+)
