@@ -7,4 +7,4 @@ run --action_env=HOME
 
 # --- Output Formatting ---
 # Make the output look nicer (optional but recommended)
-test --test_output=errors
+test --test_output=errors --test_verbose_timeout_warnings

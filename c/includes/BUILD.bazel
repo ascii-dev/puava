@@ -1,2 +1,3 @@
 exports_files(["greet.h"])
 exports_files(["vector.h"])
+exports_files(["slinkedlist.h"])
