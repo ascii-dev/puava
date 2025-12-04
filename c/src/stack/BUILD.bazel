@@ -8,3 +8,12 @@ cc_library(
     deps = ["//c/src/linkedlist:slinkedlist"],
     visibility = ["//visibility:public"],
 )
+
+cc_library(
+    name = "arrstack",
+    srcs = ["arrstack.c"],
+    hdrs = ["//c/includes:arrstack.h"],
+    strip_include_prefix = "//c",
+    deps = ["//c/src/vector:vector"],
+    visibility = ["//visibility:public"],
+)
