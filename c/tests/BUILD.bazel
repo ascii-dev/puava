@@ -1,45 +1,13 @@
 load("@rules_cc//cc:defs.bzl", "cc_test")
 
 cc_test(
-    name = "greet_test",
-    srcs = ["greet_test.cc"],
+    name = "tests",
+    srcs = glob(["*.cc"]),
     deps = [
-        "//c/src/greet:greet",      # Link our C library target
-        "@googletest//:gtest_main", # Link the GoogleTest framework
-    ],
-)
-
-cc_test(
-    name = "vector_test",
-    srcs = ["vector_test.cc"],
-    deps = [
+        "//c/src/greet:greet",
         "//c/src/vector:vector",
-        "@googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "slinkedlist_test",
-    srcs = ["slinkedlist_test.cc"],
-    deps = [
         "//c/src/linkedlist:slinkedlist",
-        "@googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "llstack_test",
-    srcs = ["llstack_test.cc"],
-    deps = [
         "//c/src/stack:llstack",
-        "@googletest//:gtest_main",
-    ],
-)
-
-cc_test(
-    name = "arrstack_test",
-    srcs = ["arrstack_test.cc"],
-    deps = [
         "//c/src/stack:arrstack",
         "@googletest//:gtest_main",
     ],
