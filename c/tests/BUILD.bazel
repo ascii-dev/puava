@@ -9,6 +9,7 @@ cc_test(
         "//c/src/linkedlist:slinkedlist",
         "//c/src/stack:llstack",
         "//c/src/stack:arrstack",
+        "//c/src/queue:circular_buffer",
         "@googletest//:gtest_main",
     ],
 )
