@@ -7,3 +7,12 @@ cc_library(
     strip_include_prefix = "//c",
     visibility = ["//visibility:public"],
 )
+
+cc_library(
+    name = "llqueue",
+    srcs = ["llqueue.c"],
+    hdrs = ["//c/includes:llqueue.h"],
+    strip_include_prefix = "//c",
+    visibility = ["//visibility:public"],
+    deps = ["//c/src/linkedlist:slinkedlist"],
+)

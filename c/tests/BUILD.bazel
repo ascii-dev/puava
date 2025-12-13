@@ -10,6 +10,7 @@ cc_test(
         "//c/src/stack:llstack",
         "//c/src/stack:arrstack",
         "//c/src/queue:circular_buffer",
+        "//c/src/queue:llqueue",
         "@googletest//:gtest_main",
     ],
 )
